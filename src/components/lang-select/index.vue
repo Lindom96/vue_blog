@@ -1,0 +1,37 @@
+<template>
+  <el-dropdown trigger="click" class="international-icon" @command="handleSetLanguage">
+    <div>
+      <icon-svg class-name="international-icon" icon-class="language" />
+    </div>
+    <el-dropdown-menu slot="dropdown">
+      <el-dropdown-item command="zh" :disabled="language==='zh'">中文</el-dropdown-item>
+      <el-dropdown-item command="en" :disabled="language==='en'">English</el-dropdown-item>
+    </el-dropdown-menu>
+  </el-dropdown>
+</template>
+<script>
+import IconSvg from "@/components/icon-svg";
+export default {
+  name: "LangSelect",
+  components: {
+    IconSvg
+  },
+  computed: {
+    language() {
+      return this.$store.getters.language;
+    }
+  },
+  methods: {
+    handleSetLanguage(lang) {
+      this.$i18n.locale = lang;
+      this.$store.dispatch("setLanguage", lang);
+    }
+  }
+};
+</script>
+<style scoped>
+.international-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+</style>
