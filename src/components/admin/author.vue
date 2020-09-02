@@ -173,37 +173,37 @@ export default {
       form: {
         oldPassword: "",
         newPassword: "",
-        confirmPassword: ""
+        confirmPassword: "",
       },
       rules: {
         oldPassword: [
-          { validator: checkOldPassword, trigger: "blur", required: true }
+          { validator: checkOldPassword, trigger: "blur", required: true },
         ],
         newPassword: [
-          { validator: checkPassword, trigger: "blur", required: true }
+          { validator: checkPassword, trigger: "blur", required: true },
         ],
         confirmPassword: [
-          { validator: checkPassword2, trigger: "blur", required: true }
-        ]
+          { validator: checkPassword2, trigger: "blur", required: true },
+        ],
       },
       cropVisible: false,
       // crop 属性
       cropRule: {
         width,
-        height
+        height,
       },
       imgRule: {
         minWidth: width,
-        minHeight: height
+        minHeight: height,
       },
       cropImg: "",
       croppa: {},
       imgInfo: null,
-      quality: 1
+      quality: 1,
     };
   },
   computed: {
-    ...mapGetters(["author"])
+    ...mapGetters(["author"]),
   },
   methods: {
     ...mapActions(["loginOut", "setAuthorAndState"]),
@@ -256,17 +256,17 @@ export default {
     async handleCrop() {
       // 获取剪裁数据
       const blob = await this.$refs.croppa.promisedBlob("image/jpeg", 0.8);
-      // 构造为文件对象
+      // 构造文件对象
       const file = new File([blob], `${this.author.name}-avatar.jpg`, {
-        type: "image/jpeg"
+        type: "image/jpeg",
       });
       return this.$axios({
         method: "post",
         url: "/file",
         data: {
-          file
-        }
-      }).then(res => {
+          file,
+        },
+      }).then((res) => {
         // 清空输入框
         this.clearFileInput(this.$refs.avatarInput);
         if (!Array.isArray(res) || res.length !== 1) {
@@ -278,15 +278,15 @@ export default {
         // }
         return this.$axios({
           method: "put",
-          url: "author/avatar",
+          url: "admin/author/avatar",
           data: {
-            avatar: res[0]
-          }
-        }).then(res => {
-          if (res.errorCode === 0) {
+            avatar: res[0],
+          },
+        }).then((res) => {
+          if (res.success) {
             this.$message({
               type: "success",
-              message: "更新头像成功"
+              message: "更新头像成功",
             });
             this.cropVisible = false;
             // 触发重新获取用户信息
@@ -299,8 +299,8 @@ export default {
     },
     async getAuthorInfo() {
       try {
-        const author = await Author.getAuthorInfo();
-        this.setAuthorAndState(author);
+        const author = await Author.getAuthorInfo(this.author.id);
+        this.setAuthorAndState(author[0]);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e);
@@ -331,13 +331,13 @@ export default {
         this.$message.error("新密码不能与原始密码一样");
         return;
       }
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
             this.loading = true;
             const data = {
               oldPassword: this.form.oldPassword,
-              password: this.form.confirmPassword
+              password: this.form.confirmPassword,
             };
             const res = await Author.changeSelfPassword(data);
             if (res.errorCode === 0) {
@@ -362,8 +362,8 @@ export default {
     },
     clearFileInput(ele) {
       ele.value = "";
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -36,8 +36,8 @@ export default class Author {
     }
 
     // 获取某个作者的信息
-    static async getAuthorInfo() {
-        return await get('admin/author/info')
+    static async getAuthorInfo(id) {
+        return await get(`admin/author/info?id=${id}`)
     }
 
     // 获取所有作者
