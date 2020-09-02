@@ -132,24 +132,24 @@ export default {
   props: {
     infoType: {
       type: String,
-      default: "add"
+      default: "add",
     },
     info: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     infoAuthors: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     infoCategories: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     infoTags: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -165,7 +165,7 @@ export default {
         tags: [],
         public: 1,
         status: 1,
-        star: 1
+        star: 1,
       },
       authors: [],
       categories: [],
@@ -174,34 +174,34 @@ export default {
         title: [{ trigger: "blur", message: "请输入标题", required: true }],
         authors: [{ trigger: "change", message: "请选择作者", required: true }],
         description: [
-          { trigger: "blur", message: "请输入描述", required: true }
+          { trigger: "blur", message: "请输入描述", required: true },
         ],
         createdDate: [
-          { trigger: "blur", message: "请选择创建时间", required: true }
+          { trigger: "blur", message: "请选择创建时间", required: true },
         ],
         cover: [
-          { type: "url", trigger: "blur", message: "请输入正确的封面地址" }
+          { type: "url", trigger: "blur", message: "请输入正确的封面地址" },
         ],
         content: [
-          { trigger: "blur", message: "请输入文章内容", required: true }
+          { trigger: "blur", message: "请输入文章内容", required: true },
         ],
         categoryId: [
-          { trigger: "change", message: "请选择分类", required: true }
+          { trigger: "change", message: "请选择分类", required: true },
         ],
         tags: [{ type: "array", message: "请选择标签", required: true }],
         public: [
-          { type: "number", message: "请选择公开或私密", required: true }
+          { type: "number", message: "请选择公开或私密", required: true },
         ],
         status: [
-          { type: "number", message: "请选择发布或草稿", required: true }
+          { type: "number", message: "请选择发布或草稿", required: true },
         ],
-        star: [{ type: "number", message: "请选择是否为精选", required: true }]
-      }
+        star: [{ type: "number", message: "请选择是否为精选", required: true }],
+      },
     };
   },
   methods: {
     async submitForm(formName) {
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           if (this.infoType === "add") {
             // 新增文章
@@ -293,7 +293,7 @@ export default {
       let result = [].concat(arr);
       result.shift();
       return result;
-    }
+    },
   },
   created() {
     if (this.infoType === "add") {
@@ -308,7 +308,7 @@ export default {
       this.authors = this.fitlerAll(this.infoAuthors);
       this.form = JSON.parse(JSON.stringify(this.info));
     }
-  }
+  },
 };
 </script>
 

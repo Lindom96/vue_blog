@@ -32,20 +32,20 @@ export default {
   props: {
     isSubmit: {
       type: Boolean,
-      default: true
+      default: true,
     },
     infoType: {
       type: String,
-      default: "add"
+      default: "add",
     },
     info: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     id: {
       type: Number,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
       form: {
         name: "",
         link: "",
-        avatar: ""
+        avatar: "",
       },
       rules: {
         name: [{ trigger: "blur", message: "友链名不能为空", required: true }],
@@ -62,32 +62,32 @@ export default {
             type: "url",
             trigger: "blur",
             message: "请输入正确的链接",
-            required: true
-          }
+            required: true,
+          },
         ],
         avatar: [
-          { type: "url", trigger: "blur", message: "请输入正确的头像地址" }
-        ]
-      }
+          { type: "url", trigger: "blur", message: "请输入正确的头像地址" },
+        ],
+      },
     };
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           if (this.infoType === "add") {
             // 新增友链
             try {
               this.loading = true;
               const res = await blog.createFriend(this.form);
-              if (res.errorCode === 0) {
+              if (res.success) {
                 this.loading = false;
-                this.$message.success(`${res.msg}`);
+                this.$message.success(`${res.message}`);
                 this.$emit("createFriend", true);
                 this.resetForm(formName);
               } else {
                 this.loading = false;
-                this.$message.error(`${res.msg}`);
+                this.$message.error(`${res.message}`);
               }
             } catch (e) {
               this.loading = false;
@@ -107,13 +107,13 @@ export default {
             try {
               this.loading = true;
               const res = await blog.updateFriend(this.id, this.form);
-              if (res.errorCode === 0) {
+              if (res.success) {
                 this.loading = false;
-                this.$message.success(`${res.msg}`);
+                this.$message.success(`${res.message}`);
                 this.$emit("handleInfoResult", true);
               } else {
                 this.loading = false;
-                this.$message.error(`${res.msg}`);
+                this.$message.error(`${res.message}`);
               }
             } catch (e) {
               this.loading = false;
@@ -137,12 +137,12 @@ export default {
       this.form.name = this.info.name;
       this.form.link = this.info.link;
       this.form.avatar = this.info.avatar;
-    }
+    },
   },
   created() {
     if (this.infoType === "edit") {
       this.setInfo();
     }
-  }
+  },
 };
 </script>

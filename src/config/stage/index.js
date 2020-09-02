@@ -16,7 +16,7 @@ import author from './author'
  */
 
 let homeRouter = [{
-        title: '夏季指南',
+        title: '人间得意',
         type: 'view',
         name: Symbol('about'),
         route: '/about',
@@ -47,7 +47,7 @@ let homeRouter = [{
         icon: 'el-icon-chat-dot-square',
     },
     {
-        title: '全局管理',
+        title: '友链管理',
         type: 'view',
         name: Symbol('blog-config'),
         route: '/blog-config',

@@ -14,7 +14,7 @@ class Blog {
 
     // 获取所有友链
     async getFriends() {
-        const res = await get('blog/friend/friends')
+        const res = await get('blog/friends')
         return res
     }
 

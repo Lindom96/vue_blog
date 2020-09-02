@@ -38,11 +38,12 @@ export default {
       const { authorname, password } = this.form;
       try {
         this.loading = true;
-        const author = await Author.getToken(authorname, password);
+        const author = await Author.signIn(authorname, password);
         if (!author) {
           this.loading = false;
           return this.$message.success("登录失败");
         }
+        console.log(author);
         this.setAuthorAndState(author);
         this.loading = false;
         this.$router.push("/about");

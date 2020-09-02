@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <pre class="content">
-      #惟有文字 长情陪伴#
+      人间失格
     </pre>
   </div>
 </template>

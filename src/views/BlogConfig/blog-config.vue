@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="view-title">全局管理</div>
+    <div class="view-title">友链管理</div>
     <friend></friend>
   </div>
 </template>

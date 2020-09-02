@@ -10,6 +10,16 @@ import {
 } from '@/utils/cookie'
 
 export default class Author {
+    
+    static async signIn(name, password) {
+        const tokens = await post('admin/login', {
+            name,
+            password
+        })
+        // saveTokens(tokens.accessToken, tokens.refreshToken)
+        return tokens
+    }
+
     static async getToken(name, password) {
         const tokens = await post('admin/login', {
             name,

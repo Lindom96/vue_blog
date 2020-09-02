@@ -1,12 +1,18 @@
 <template>
   <div class="author">
     <el-dropdown>
-      <i class="avatar-icon" :style="{backgroundImage: `url(${author.avatar}?${Date.now()})`}"></i>
+      <i
+        class="avatar-icon"
+        :style="{backgroundImage: `url(http://lindom.blog.com/upload/${author.name}-avatar.jpg)`}"
+      ></i>
       <el-dropdown-menu slot="dropdown" class="author-wrapper">
         <ul class="author-wrapper">
           <div class="author-info">
             <div class="background"></div>
-            <i class="avatar" :style="{backgroundImage: `url(${author.avatar}?${Date.now()})`}">
+            <i
+              class="avatar"
+              :style="{backgroundImage: `url(http://lindom.blog.com/upload/${author.name}-avatar.jpg)`}"
+            >
               <i class="edit el-icon-edit"></i>
               <input
                 class="file"
@@ -302,6 +308,7 @@ export default {
     },
     outLogin() {
       this.loginOut();
+      this.$router.push("/login");
       window.location.reload(true);
     },
     changePassword() {
