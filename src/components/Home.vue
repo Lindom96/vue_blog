@@ -99,15 +99,14 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .nav-div {
   margin: 0.25rem;
   display: flex;
   justify-content: flex-end;
 }
 
-.international-header {
-}
+
 .mini-header {
   position: absolute;
   z-index: 1;

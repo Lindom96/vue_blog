@@ -339,15 +339,15 @@ export default {
               oldPassword: this.form.oldPassword,
               password: this.form.confirmPassword,
             };
-            const res = await Author.changeSelfPassword(data);
-            if (res.errorCode === 0) {
+            const res = await Author.changePassword(data, this.author.id);
+            if (res.success) {
               this.loading = false;
-              this.$message.success(`${res.msg}`);
+              this.$message.success(`${res.message}`);
               this.resetForm(formName);
               this.dialogVisible = false;
             } else {
               this.loading = false;
-              this.$message.error(`${res.msg}`);
+              this.$message.error(`${res.message}`);
             }
           } catch (e) {
             this.loading = false;
