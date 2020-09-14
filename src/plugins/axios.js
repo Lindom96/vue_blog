@@ -1,6 +1,4 @@
-/**
- * https://github.com/TaleLin/lin-cms-vue/blob/master/src/lin/plugins/axios.js
- */
+
 
 import Vue from 'vue'
 import axios from 'axios'

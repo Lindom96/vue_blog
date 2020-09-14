@@ -51,13 +51,13 @@ export default {
           try {
             this.loading = true;
             const res = await article.deleteComment(id);
-            if (res.errorCode === 0) {
+            if (res.success) {
               this.loading = false;
               await this.getComments();
-              this.$message.success(`${res.msg}`);
+              this.$message.success(`${res.success}`);
             } else {
               this.loading = false;
-              this.$message.error(`${res.msg}`);
+              this.$message.error(`${res.success}`);
             }
           } catch (e) {
             this.loading = false;

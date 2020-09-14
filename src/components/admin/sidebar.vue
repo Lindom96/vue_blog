@@ -43,7 +43,7 @@
             </el-submenu>
 
             <!-- 二级菜单 else -->
-            <router-link :to="subItem.path" :key="subItem.name" class="circle" v-else>
+            <router-link :to="subItem.path" :key="subItem.name" class="circle">
               <el-menu-item :index="idMap[subItem.name]" style="padding-left: 60px;">
                 <span>{{subItem.title}}</span>
               </el-menu-item>
@@ -72,7 +72,7 @@ import Utils from "@/utils/util";
 import { mapGetters } from "vuex";
 export default {
   props: {
-    isCollapse: Boolean
+    isCollapse: Boolean,
   },
   computed: {
     defaultActive() {
@@ -92,7 +92,7 @@ export default {
       const mapData = {};
       const deepTravel = (obj, func) => {
         if (Array.isArray(obj)) {
-          obj.forEach(item => {
+          obj.forEach((item) => {
             deepTravel(item, func);
           });
           return;
@@ -106,23 +106,23 @@ export default {
           func(obj);
         }
       };
-      deepTravel(sideBarList, item => {
+      deepTravel(sideBarList, (item) => {
         mapData[item.name] = Utils.getRandomStr();
       });
       return mapData;
     },
-    ...mapGetters(["sideBarList"])
+    ...mapGetters(["sideBarList"]),
   },
   methods: {
     goto(path) {
       this.$router.push({
-        path
+        path,
       });
     },
     filterIcon(icon) {
       return icon.indexOf("/") !== -1;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -136,5 +136,12 @@ export default {
   font-size: $font-size-extra-large;
   letter-spacing: 1px;
   color: #fff;
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
 }
 </style>

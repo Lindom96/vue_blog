@@ -6,7 +6,7 @@ import ErrorPage from '@/views/ErrorPage/404'
 
 const routes = [{
         path: '',
-        redirect: '/home' //重定向路径(设置默认路径)
+        redirect: '/login' //重定向路径(设置默认路径)
     }, {
         path: '/home',
         name: 'home',
@@ -32,7 +32,7 @@ const routes = [{
     }, {
         path: '/admin',
         name: 'Admin',
-        redirect: '/about',
+        redirect: '/admin/about',
         component: Admin,
         children: [
             ...homeRouter

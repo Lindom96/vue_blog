@@ -4,15 +4,15 @@ const categoryRouter = {
     title: '分类管理',
     type: 'folder',
     icon: 'el-icon-collection-tag',
-    filePath: 'views/Category/',
+    filePath: 'views/Admin/Category/',
     order: null,
     inNav: true,
     children: [{
             title: '分类管理',
             type: 'view',
             name: 'category',
-            route: '/category/category',
-            filePath: 'views/Category/category.vue',
+            route: '/admin/category/category',
+            filePath: 'views/Admin/Category/category.vue',
             inNav: true,
             icon: ''
         },
@@ -20,8 +20,8 @@ const categoryRouter = {
             title: '标签管理',
             type: 'view',
             name: 'tag',
-            route: '/category/tag',
-            filePath: 'views/Category/tag.vue',
+            route: '/admin/category/tag',
+            filePath: 'views/Admin/Category/tag.vue',
             inNav: true,
             icon: ''
         }

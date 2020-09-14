@@ -36,7 +36,7 @@ export default {
       total: 0,
       currentPage: 1,
       loading: false,
-      messages: []
+      messages: [],
     };
   },
   methods: {
@@ -48,13 +48,13 @@ export default {
       this.$confirm("此操作将永久删除这条留言, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(async () => {
           try {
             this.loading = true;
             const res = await message.deleteMessage(val.id);
-            if (res.errorCode === 0) {
+            if (res.success) {
               this.loading = false;
               // 判断删除的是不是每一页的最后一条数据
               if (this.total % this.pageSize === 1 && this.currentPage !== 1) {
@@ -63,7 +63,7 @@ export default {
               await this.getMessages();
               this.$message({
                 type: "success",
-                message: res.msg
+                message: res.msg,
               });
             } else {
               this.loading = false;
@@ -78,7 +78,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -86,7 +86,7 @@ export default {
       try {
         this.loading = true;
         const res = await message.getMessages(this.currentPage - 1);
-        res.collection.forEach(v => {
+        res.collection.forEach((v) => {
           v.createTime = Utils.timestampToTime(v.createTime);
         });
         this.total = res.total;
@@ -97,11 +97,11 @@ export default {
         // eslint-disable-next-line no-console
         console.log(e);
       }
-    }
+    },
   },
   created() {
     this.getMessages();
-  }
+  },
 };
 </script>
 

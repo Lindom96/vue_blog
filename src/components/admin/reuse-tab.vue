@@ -10,7 +10,7 @@
         >
           <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
           <span class="title">{{ stageList[item.stageId].title }}</span>
-          <span class="el-icon-close" @click.prevent.stop="close(index)" />
+          <span class="el-icon-delete-solid" @click.prevent.stop="close(index)" />
         </router-link>
       </li>
     </ul>

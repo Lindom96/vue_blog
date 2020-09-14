@@ -86,29 +86,29 @@ import Comments from "./comments";
 import article from "@/store/Modules/article";
 const publicMap = {
   1: "公开",
-  2: "私密"
+  2: "私密",
 };
 const statusMap = {
   1: "已发布",
-  2: "草稿"
+  2: "草稿",
 };
 export default {
   components: {
-    Comments
+    Comments,
   },
   props: {
     articleData: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     currentPage: {
       type: Number,
-      default: 0
+      default: 0,
     },
     total: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
@@ -117,7 +117,7 @@ export default {
       publicMap,
       statusMap,
       dialogVisible: false,
-      pageSize: 10
+      pageSize: 10,
     };
   },
   methods: {
@@ -128,7 +128,6 @@ export default {
       this.dialogVisible = false;
     },
     editArticle(val) {
-      console.log(val);
       this.$emit("handleEdit", val);
     },
     // 设文章为 公开 / 私密
@@ -136,16 +135,16 @@ export default {
       try {
         this.loading = true;
         const params = {
-          publicId: val.public === 1 ? 2 : 1
+          public: val.public === 1 ? 2 : 1,
         };
         const res = await article.updateArticlePublic(val.id, params);
-        if (res.errorCode === 0) {
+        if (res.success) {
           this.loading = false;
-          this.$message.success(`${res.msg}`);
+          this.$message.success(`${res.message}`);
           this.$emit("handleInfoResult", true);
         } else {
           this.loading = false;
-          this.$message.error(`${res.msg}`);
+          this.$message.error(`${res.message}`);
         }
         this.loading = false;
       } catch (e) {
@@ -159,16 +158,16 @@ export default {
       try {
         this.loading = true;
         const params = {
-          starId: val.star === 1 ? 2 : 1
+          star: val.star === 1 ? 2 : 1,
         };
         const res = await article.updateArticleStar(val.id, params);
-        if (res.errorCode === 0) {
+        if (res.success) {
           this.loading = false;
-          this.$message.success(`${res.msg}`);
+          this.$message.success(`${res.message}`);
           this.$emit("handleInfoResult", true);
         } else {
           this.loading = false;
-          this.$message.error(`${res.msg}`);
+          this.$message.error(`${res.message}`);
         }
         this.loading = false;
       } catch (e) {
@@ -185,19 +184,19 @@ export default {
       this.$confirm("此操作将删除文章, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(async () => {
           try {
             this.loading = true;
             const res = await article.deleteArticle(val.id);
-            if (res.errorCode === 0) {
+            if (res.success) {
               this.loading = false;
-              this.$message.success(`${res.msg}`);
+              this.$message.success(`${res.message}`);
               this.$emit("handleInfoResult", true);
             } else {
               this.loading = false;
-              this.$message.error(`${res.msg}`);
+              this.$message.error(`${res.message}`);
             }
           } catch (e) {
             this.loading = false;
@@ -208,8 +207,8 @@ export default {
         .catch(() => {
           this.$message.info("已取消删除");
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -125,7 +125,7 @@ import ArticleInfo from "./article-info";
 export default {
   components: {
     ArticleTable,
-    ArticleInfo
+    ArticleInfo,
   },
   data() {
     return {
@@ -148,19 +148,19 @@ export default {
       publicList: [
         { id: 0, name: "全部" },
         { id: 1, name: "公开" },
-        { id: 2, name: "私密" }
+        { id: 2, name: "私密" },
       ],
       status: [
         { id: 0, name: "全部" },
         { id: 1, name: "已发布" },
-        { id: 2, name: "草稿" }
+        { id: 2, name: "草稿" },
       ],
       star: [
         { id: 0, name: "全部" },
         { id: 1, name: "非精选" },
-        { id: 2, name: "精选" }
+        { id: 2, name: "精选" },
       ],
-      form: {}
+      form: {},
     };
   },
   methods: {
@@ -190,15 +190,15 @@ export default {
         id: data.id,
         title: data.title,
         description: data.description,
-        authors: data.authors.map(v => v.id),
+        authors: data.authors.map((v) => v.id),
         createdDate: data.created_date,
         cover: data.cover,
         content: "",
         categoryId: data.category.c_id,
-        tags: data.tags.map(v => v.id),
+        tags: data.tags.map((v) => v.id),
         public: data.public,
         status: data.status,
-        star: data.star
+        star: data.star,
       };
       try {
         const res = await article.getContent(data.id);
@@ -230,7 +230,7 @@ export default {
           publicId: this.publicId,
           statusId: this.statusId,
           starId: this.starId,
-          page
+          page,
         };
         if (this.searchVal) {
           params.search = this.searchVal;
@@ -238,14 +238,12 @@ export default {
         // let { articles, total } = await article.getArticles(params);
 
         let articles = await article.getArticles(params);
-        articles.forEach(v => {
+        articles.forEach((v) => {
           v.created_date = Utils.timestampToTime(v.created_date);
         });
         this.currentPage = page + 1;
         this.total = 1;
         this.articleData = articles;
-
-        console.log(articles);
         this.tableLoading = false;
       } catch (e) {
         this.tableLoading = false;
@@ -258,7 +256,7 @@ export default {
         const res = await category.getCategories();
         res.unshift({
           id: 0,
-          name: "全部"
+          name: "全部",
         });
         this.categories = res;
       } catch (e) {
@@ -271,7 +269,7 @@ export default {
         const res = await author.getAuthors();
         res.unshift({
           id: 0,
-          name: "全部"
+          name: "全部",
         });
         this.authors = res;
       } catch (e) {
@@ -284,14 +282,14 @@ export default {
         const res = await tag.getTags();
         res.unshift({
           id: 0,
-          name: "全部"
+          name: "全部",
         });
         this.tags = res;
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e);
       }
-    }
+    },
   },
   created() {
     this.loading = true;
@@ -300,7 +298,7 @@ export default {
     this.getTags();
     this.getArticles();
     this.loading = false;
-  }
+  },
 };
 </script>
 

@@ -42,7 +42,6 @@
             <el-form-item label="作者" prop="authors">
               <el-select
                 v-model="form.authors"
-                multiple
                 filterable
                 allow-create
                 size="medium"
@@ -83,6 +82,7 @@
                 v-model="form.createdDate"
                 size="medium"
                 type="datetime"
+                value-format="yyyy-MM-dd hh:mm"
                 :editable="false"
               ></el-date-picker>
             </el-form-item>
@@ -208,13 +208,13 @@ export default {
             try {
               this.loadingn = true;
               const res = await article.createArticle(this.form);
-              if (res.errorCode === 0) {
+              if (res.success) {
                 this.loading = false;
-                this.$message.success(`${res.msg}`);
+                this.$message.success(`${res.message}`);
                 this.resetForm(formName);
               } else {
                 this.loading = false;
-                this.$message.error(`${res.msg}`);
+                this.$message.error(`${res.message}`);
               }
             } catch (e) {
               this.loading = false;
@@ -230,11 +230,11 @@ export default {
             try {
               // eslint-disable-next-line no-console
               const res = await article.updateArticle(this.form);
-              if (res.errorCode === 0) {
-                this.$message.success(`${res.msg}`);
+              if (res.success) {
+                this.$message.success(`${res.message}`);
                 this.$emit("handleBack", true);
               } else {
-                this.$message.error(`${res.msg}`);
+                this.$message.error(`${res.message}`);
               }
             } catch (e) {
               // eslint-disable-next-line no-console
