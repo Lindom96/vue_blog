@@ -1,263 +1,327 @@
 <template>
-  <div class="home">
-    <div class="international-header">
-      <div class="mini-header m-header">
-        <div class="mini-header-content mini-header-login">
-          <div class="nav-link">
-            <ul class="nav-link-ul">
-              <li class="nav-link-item">
-                <a href="#" class="link">
-                  <i class="bilifont bili-icon_dingdao_zhuzhan"></i>主站
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="nav-search-box">
-            <div class="nav-search">
-              <form id="nav_searchform">
-                <input
-                  type="text"
-                  autocomplete="off"
-                  accesskey="s"
-                  x-webkit-speech
-                  x-webkit-grammar="builtin:translate"
-                  placeholder="搜索你想要的~~~"
-                  class="nav-search-keyword"
-                />
-                <div class="nav-search-btn">
-                  <button type="button" class="bilifont bili-icon_dingdao_sousuo nav-search-submit"></button>
-                </div>
-              </form>
-              <!---->
-              <!---->
+  <div id="homepage">
+    <div id="tou">
+      <a href="#"><Icon type="md-planet" /> <span>主页</span></a>
+      <Input
+        class="search-ipt"
+        search
+        enter-button
+        placeholder="Enter something..."
+      />
+    </div>
+    <div class="main-container">
+      <div class="artic-list">
+        <artic-card :templates="templates"></artic-card>
+      </div>
+      <div class="r-content">
+        <div class="tags">
+          <h4>标签</h4>
+          <div>
+            <div v-for="(item, id) in Labellist" :key="id" class="tag-item">
+              <Button type="primary">{{ item.labelname }}</Button>
             </div>
           </div>
-          <div class="nav-user-center">
-            <div class="user-con search-icon">
-              <a href="//search.bilibili.com/" target="_blank">
-                <i class="bilifont bili-icon_dingdao_sousuo"></i>
-              </a>
+        </div>
+        <div class="cats">
+          <h4>分类</h4>
+          <div class="labels">
+            <div v-for="(item, id) in serieslist" :key="id" class="series">
+              <router-link
+                class="series-a"
+                exact-active-class="series"
+                :to="{ path: '/list', query: { seriesid: item.id } }"
+                ><i class="iconfont">&#xe644;</i>&ensp;{{
+                  item.name
+                }}</router-link
+              >
             </div>
-            <div class="user-con signin">
-              <div data-v-cba1b22a class="item">
-                <div data-v-7adc35f6 data-v-cba1b22a class="nav-item">
-                  <div data-v-7adc35f6 class="t">
-                    <!---->
-                    <!---->
-                    <a
-                      data-v-cba1b22a
-                      data-v-7adc35f6
-                      href="//message.bilibili.com/new"
-                      target="_blank"
-                    >
-                      <span data-v-cba1b22a data-v-7adc35f6 class="name">消息</span>
-                    </a>
-                  </div>
-                  <!---->
-                  <div data-v-7adc35f6 class="i-frame" style="display: none;">
-                    <iframe data-v-7adc35f6 src frameborder="0" width="100%" height="100%"></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div data-v-31cc0059>
-              <span data-v-31cc0059>
-                <div
-                  role="tooltip"
-                  id="van-popover-7990"
-                  aria-hidden="true"
-                  class="van-popover van-popper van-popper-upload"
-                  style="width:304px;display:none;"
-                  tabindex="0"
-                ></div>
-                <span
-                  class="mini-upload van-popover__reference"
-                  data-v-31cc0059
-                  aria-describedby="van-popover-7990"
-                  tabindex="0"
-                  @click="btnLoginClick"
-                >登录</span>
-              </span>
-            </div>
+          </div>
+        </div>
+        <div class="personal">
+          <h4>个人信息</h4>
+          <div class="logo-p">
+            <img src="../../assets/img/bg0503.jpg" alt="" />
+            <a href="https://blog.csdn.net/" target="“_blank”"
+              >&ensp;&ensp;https://blog.csdn.net/</a
+            >
+          </div>
+          <div class="logo-p">
+            <span style="color:'Dodgerblue'"><i class="fab fa-qq"></i></span>&ensp;&ensp;1601514271
+          </div>
+          <div class="logo-p">
+            <img src="../../assets/img/bg0503.jpg" alt="" />
+            &ensp;&ensp;1601514271@qq.com
           </div>
         </div>
       </div>
     </div>
+    <el-backtop target=".artic-list"></el-backtop>
   </div>
 </template>
 
 <script>
+import { Button } from "view-design";
+import ArticCard from "./components/ArticCard";
 export default {
-  name: "Home",
+  name: "home",
+  components: {
+    Button,
+    ArticCard,
+  },
+  data() {
+    return {
+      search: "",
+      Labellist: [
+        { id: 1, labelname: "PHP" },
+        { id: 2, labelname: "Ajax" },
+        { id: 3, labelname: "mysql" },
+        { id: 4, labelname: "JavaScript" },
+      ],
+      serieslist: [
+        { id: 1, name: "PHP日志" },
+        { id: 2, name: "技术" },
+        { id: 3, name: "感想" },
+      ],
+      timelist: ["2020-07", "2020-08", "2020-09"],
+      templates: [],
+      fakeData: [
+        {
+          id: "1",
+          modelName: "你好",
+          title: "文本标题",
+          modelType: "1",
+          content:
+            "如果实现单行文本的溢出显示省略号同学们应该都知道用text-overflow:ellipsis属性。",
+          img: "",
+        },
+        {
+          id: "2",
+          modelName: "你好",
+          title: "文本标题",
+          modelType: "1",
+          content:
+            "如果实现单行文本的溢出显示省略号同学们应该都知道用text-overflow:ellipsis属性。",
+          img: "",
+        },
+        {
+          id: "3",
+          modelName: "你好",
+          title: "文本标题",
+          modelType: "2",
+          content:
+            "如果实现单行文本的溢出显示省略号同学们应该都知道用text-overflow:ellipsis属性。",
+          img:
+            "//33e9-test-upload.oss-cn-shenzhen.aliyuncs.com/material/6c/6cfeff6008d7e11a8eb8c84f2b9ed4cd.png",
+        },
+        {
+          id: "4",
+          modelName: "你好",
+          title: "文本标题",
+          modelType: "2",
+          content:
+            "如果实现单行文本的溢出显示省略号同学们应该都知道用text-overflow:ellipsis属性。",
+          img:
+            "http://33e9-test-upload.oss-cn-shenzhen.aliyuncs.com/material/df/df35f90ee575cd2a7ff9d8cfdd3debef.png",
+        },
+        {
+          id: "5",
+          modelName: "你好",
+          title: "文本标题",
+          modelType: "2",
+          content:
+            "如果实现单行文本的溢出显示省略号同学们应该都知道用text-overflow:ellipsis属性。",
+          img:
+            "http://33e9-test-upload.oss-cn-shenzhen.aliyuncs.com/material/df/df35f90ee575cd2a7ff9d8cfdd3debef.png",
+        },
+        {
+          id: "6",
+          modelName: "你好",
+          title: "文本标题",
+          modelType: "2",
+          content:
+            "如果实现单行文本的溢出显示省略号同学们应该都知道用text-overflow:ellipsis属性。",
+          img:
+            "http://33e9-test-upload.oss-cn-shenzhen.aliyuncs.com/material/df/df35f90ee575cd2a7ff9d8cfdd3debef.png",
+        },
+      ],
+    };
+  },
   methods: {
+    //获取标签的方法
+    getlabel() {
+      this.$axios({
+        method: "get",
+        url: "/json/label",
+        params: {},
+      }).then(
+        (res) => {
+          this.Labellist = res.data.data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    //获取专栏的方法
+    getcolumn() {
+      this.$axios({
+        method: "get",
+        url: "/json/column",
+        params: {},
+      }).then(
+        (res) => {
+          this.serieslist = res.data.data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    /**
+     * 获取文章列表
+     */
+    getArticleList() {
+      let _this = this;
+      setTimeout(() => {
+        _this.$set(_this, "templates", _this.fakeData);
+      }, 500);
+    },
+    //获取时间的方法
+    gettime() {
+      this.$axios({
+        method: "get",
+        url: "/json/article/getDate",
+        params: {},
+      }).then(
+        (res) => {
+          this.timelist = res.data.data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    seek() {
+      if (this.search) {
+        this.$router.push({ path: "/list", query: { search: this.search } });
+        this.search = "";
+      }
+    },
+    onSubmit() {
+      return false;
+    },
     btnLoginClick() {
-      this.$router.push("/login").catch(err => {
+      this.$router.push("/login").catch((err) => {
         $router.push("/home");
       });
-    }
-  }
+    },
+  },
+  mounted() {
+    // this.getlabel()
+    // this.getcolumn()
+    //  this.gettime()
+    this.getArticleList();
+  },
 };
 </script>
-
-<style lang="less" scoped>
-.nav-div {
-  margin: 0.25rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.mini-header {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 6rem;
-  background-color:rgb(205, 230, 245);
-}
-.mini-header-content {
-  box-sizing: border-box;
-  padding: 10px 24px;
-  line-height: 30px;
-  position: relative;
-  margin: 0 auto;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: start;
-  align-items: flex-start;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-/**nav导航栏菜单 */
-.nav-link{
-  padding: 0;
-}
-.nav-link .nav-link-ul {
-  height: 36px;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.international-header ul {
-  list-style: none;
-}
-ol,
-ul {
-  list-style: none;
-}
-.nav-link .nav-link-ul .nav-link-item {
-  margin-right: 12px;
-}
-.nav-link .nav-link-ul .nav-link-item .link {
-  font-size: 14px;
-  color: rgb(90, 150, 240);
-  text-shadow: 0 1px 1px rgba(142, 190, 235, 0.795);
-  display: inline-block;
-  white-space: nowrap;
-  display: -ms-flexbox;
-  display: flex;
-}
-/**searchbar */
-.international-header .nav-search-box {
-  margin: 0 10px;
-  width: 500px;
-  transition: width 0.3s;
-}
-.bili-header-m .nav-search,
-.international-header .nav-search {
-  position: relative;
-}
-.international-header * {
-  box-sizing: border-box;
-}
-.bili-header-m .nav-search #nav_searchform,
-.international-header .nav-search #nav_searchform {
-  display: block;
-  padding: 0 38px 0 16px;
-  border: 1px solid hsla(0, 0%, 100%, 0);
-  border-radius: 2px;
-  background-color: #fff;
-}
-.bili-header-m .nav-search .nav-search-keyword,
-.international-header .nav-search .nav-search-keyword {
-  overflow: hidden;
-  width: 100%;
-  height: 34px;
-  border: none;
-  background-color: transparent;
-  box-shadow: none;
-  color: #999;
-  font-size: 14px;
-  line-height: 34px;
-  transition: all 0.2s;
-}
-.bili-header-m .nav-search .nav-search-btn,
-.international-header .nav-search .nav-search-btn {
-  position: absolute;
+<style lang="scss" scoped>
+#tou {
+  position: sticky;
+  z-index: 100;
   top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  width: 48px;
-  height: 36px;
-  border: none;
-  border-radius: 2px;
-  background: #e7e7e7;
-  line-height: 26px;
-  cursor: pointer;
-}
-.bili-header-m .nav-search .nav-search-submit,
-.international-header .nav-search .nav-search-submit {
-  position: absolute;
-  top: 8px;
-  right: 16px;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: none;
-  color: #505050;
-  font-size: 16px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-/** user nav */
-.nav-user-center {
+  background-color: white;
+  padding-top: 25px;
+  padding-right: 100px;
+  padding-left: 30px;
+  padding-bottom: 30px;
+  height: 80px;
   display: flex;
-  flex-shrink: 0;
+  a {
+    flex: 1;
+    color: #000;
+  }
+  .search-ipt {
+    width: 20%;
+  }
 }
-.user-con.signin {
-  display: flex;
-}
-.nav-user-center .user-con {
-  align-items: center;
-}
-.nav-user-center .user-con.search-icon {
-  display: none;
-}
-.nav-user-center .user-con .item {
-  position: relative;
-  display: flex;
-  margin-left: 12px;
-  cursor: pointer;
-}
-.van-popover.van-popper.van-popper-upload {
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 5px;
   padding: 0;
-  border: none;
-  top: 44px !important;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2) !important;
 }
-.mini-upload[data-v-31cc0059] {
-  cursor: pointer;
-  position: relative;
-  color: #fff;
-  font-size: 14px;
-  display: block;
-  width: 100px;
-  height: 36px;
-  line-height: 36px;
-  text-align: center;
-  background: #fb7299;
-  border-radius: 2px;
-  margin-left: 14px;
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+  border-radius: 25px;
+  margin: 5px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 25px;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 0, 0, 0.4);
+}
+.main-container {
+  top: 50px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  /* align-items: flex-end; */
+  background: white;
+  margin-top: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 16px 10px 10px 10px;
+  border: 1px dashed lightgrey;
+  border-radius: 10px;
+  .artic-list {
+    flex: 1;
+    max-height: 800px;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .r-content {
+    width: 410px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 5px;
+    margin-left: 5px;
+    & > div {
+      border-radius: 15px;
+      justify-content: center;
+      width: 100%;
+      margin: 3px;
+      opacity: 0.9;
+      background-color: #f9f9f5;
+      h4 {
+        text-align: center;
+      }
+    }
+    .tags {
+      height: 155px;
+      & > div {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        .tag-item {
+          margin: 2px;
+        }
+      }
+    }
+    .cats {
+      height: 200px;
+    }
+    .personal {
+      height: 200px;
+    }
+  }
+}
+.logo-p img {
+  height: 20px;
+  vertical-align: middle;
 }
 </style>

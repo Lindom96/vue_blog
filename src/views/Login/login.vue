@@ -54,15 +54,6 @@ export default {
         console.log(e);
       }
     },
-    // async getAuthorInfo() {
-    //   try {
-    //     const author = await Author.getAuthorInfo();
-    //     this.setAuthorAndState(author);
-    //   } catch (e) {
-    //     // eslint-disable-next-line no-console
-    //     console.log(e);
-    //   }
-    // },
     ...mapActions(["setAuthorAndState"])
   },
   created() {

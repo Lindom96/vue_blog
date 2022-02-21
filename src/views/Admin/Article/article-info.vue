@@ -43,6 +43,7 @@
               <el-select
                 v-model="form.authors"
                 filterable
+                multiple
                 allow-create
                 size="medium"
                 placeholder="请选择作者"

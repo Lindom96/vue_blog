@@ -6,7 +6,7 @@ import ErrorPage from '@/views/ErrorPage/404'
 
 const routes = [{
         path: '',
-        redirect: '/login' //重定向路径(设置默认路径)
+        redirect: '/home' //重定向路径(设置默认路径)
     }, {
         path: '/home',
         name: 'home',
