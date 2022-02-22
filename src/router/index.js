@@ -36,6 +36,7 @@ Vue.use(Router)
 const router = new Router({
     routes: routes,
     mode: 'history',
+    base:'/blog/',
     linkActiveClass: 'active'
 });
 router.beforeEach((to, from, next) => {
