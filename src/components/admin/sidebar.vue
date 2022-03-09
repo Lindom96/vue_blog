@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="logo">Admin</div>
     <el-menu
-      class="el-menu-vertical-demo"
+      class="el-menu-vertical"
       :default-active="defaultActive"
       :collapse="isCollapse"
       background-color="#333"
@@ -140,7 +140,9 @@ export default {
 a {
   text-decoration: none;
 }
-
+.el-menu-vertical{
+  border-right:none;
+}
 .router-link-active {
   text-decoration: none;
 }

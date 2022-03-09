@@ -3,7 +3,9 @@
     <el-dropdown>
       <i
         class="avatar-icon"
-        :style="{backgroundImage: `url(http://lindom.blog.com/upload/${author.name}-avatar.jpg)`}"
+        :style="{
+          backgroundImage: `url(${baseImgUrl + author.name}-avatar.jpg)`,
+        }"
       ></i>
       <el-dropdown-menu slot="dropdown" class="author-wrapper">
         <ul class="author-wrapper">
@@ -11,7 +13,9 @@
             <div class="background"></div>
             <i
               class="avatar"
-              :style="{backgroundImage: `url(http://lindom.blog.com/upload/${author.name}-avatar.jpg)`}"
+              :style="{
+                backgroundImage: `url(${baseImgUrl + author.name}-avatar.jpg)`,
+              }"
             >
               <i class="edit el-icon-edit"></i>
               <input
@@ -22,7 +26,7 @@
                 @change="fileChange"
               />
             </i>
-            <span class="name">{{author.name}}</span>
+            <span class="name">{{ author.name }}</span>
           </div>
           <div class="control-wrapper">
             <li @click="changePassword">
@@ -38,7 +42,11 @@
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 修改密码弹窗 -->
-    <el-dialog append-to-body :visible.sync="dialogVisible" :before-close="handleClose">
+    <el-dialog
+      append-to-body
+      :visible.sync="dialogVisible"
+      :before-close="handleClose"
+    >
       <el-form
         ref="form"
         :model="form"
@@ -80,7 +88,9 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="resetForm('form')">重 置</el-button>
-          <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+          <el-button type="primary" @click="submitForm('form')"
+            >保 存</el-button
+          >
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -117,7 +127,9 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cropVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
+        <el-button type="primary" @click="handleCrop" size="small"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -170,6 +182,7 @@ export default {
     return {
       loading: false,
       dialogVisible: false,
+      baseImgUrl: "http://120.76.72.225:8090/laravel_blog/public/upload/",
       form: {
         oldPassword: "",
         newPassword: "",
