@@ -1,15 +1,15 @@
 <template>
-  <div class="template-main">
-    <transition-group tag="div" name="el-fade-in-linear">
-      <div v-for="item in templates" :key="item.id">
+  <div>
+    <transition-group tag="div" name="el-fade-in-linear"  class="template-main">
+      <div v-for="item in articleLst" :key="item.id">
         <div class="template-item">
           <img
             style="width: 100%; height: 138px"
-            :src="item ? (item.modelType == '1' ? picText : item.img) : picDef"
+            :src="item &&item.cover ? item.cover : picDef"
             alt=""
           />
           <div class="template-item-title">{{ item.title }}</div>
-          <div class="template-item-content">{{ item.content }}</div>
+          <div class="template-item-content">{{ item.description }}</div>
         </div>
         <!-- <div class="template-item-hover">
         <Button style="margin: 5px" @click="useTemp(item.id)"
@@ -44,7 +44,7 @@ export default {
     };
   },
   props: {
-    templates: {
+    articleLst: {
       type: Array,
     },
   },
@@ -70,15 +70,15 @@ export default {
 <style scoped>
 .template-main {
   margin: 10px 5px 0 5px;
+  max-width: 1421px;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   justify-items: flex-start;
 }
 .template-item {
   overflow: hidden;
   z-index: 100;
-  /* width: 244px; */
+  width: 460px;
   height: 242px;
   margin: 3px;
   border-radius: 10px;

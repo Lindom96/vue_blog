@@ -1,38 +1,49 @@
 <template>
   <div id="homepage">
-    <div id="tou">
-      <a href="#"><Icon type="md-planet" /> <span>主页</span></a>
+    <div id="top-main">
+      <div class="top-left">
+        <span class="slogan">忠于自己，热爱生活</span>
+      </div>
       <Input
+        v-model="search"
         class="search-ipt"
         search
         enter-button
+        @on-search="query"
         placeholder="Enter something..."
       />
+      <div class="login-div">
+      <el-button type="primary" circle style="padding:9px;" @click="btnLoginClick" ><Icon type="md-log-in" /></el-button>
+      </div>
     </div>
     <div class="main-container">
       <div class="artic-list">
-        <artic-card :templates="templates"></artic-card>
+        <artic-card :articleLst="articleLst || fakeData"></artic-card>
       </div>
       <div class="r-content">
         <div class="tags">
           <h4>标签</h4>
           <div>
-            <div v-for="(item, id) in Labellist" :key="id" class="tag-item">
-              <Button type="primary">{{ item.labelname }}</Button>
+            <div v-for="(item, id) in tagList" :key="id" class="tag-item">
+              <el-tag
+                :disable-transitions="false"
+                :hit="selecTagId === item.id"
+                @click="selectTagOrCat('selecTagId', item.id)"
+                >{{ item.name }}</el-tag
+              >
             </div>
           </div>
         </div>
         <div class="cats">
           <h4>分类</h4>
-          <div class="labels">
-            <div v-for="(item, id) in serieslist" :key="id" class="series">
-              <router-link
-                class="series-a"
-                exact-active-class="series"
-                :to="{ path: '/list', query: { seriesid: item.id } }"
-                ><i class="iconfont">&#xe644;</i>&ensp;{{
-                  item.name
-                }}</router-link
+          <div>
+            <div v-for="(item, id) in catList" :key="id" class="tag-item">
+              <el-tag
+                :disable-transitions="false"
+                :hit="selecCatId === item.id"
+                type="success"
+                @click="selectTagOrCat('selecCatId', item.id)"
+                >{{ item.name }}</el-tag
               >
             </div>
           </div>
@@ -40,16 +51,30 @@
         <div class="personal">
           <h4>个人信息</h4>
           <div class="logo-p">
-            <img src="../../assets/img/bg0503.jpg" alt="" />
-            <a href="https://blog.csdn.net/" target="“_blank”"
-              >&ensp;&ensp;https://blog.csdn.net/</a
+            <img title="CSDN首页" :src="csdnLogo" />
+            <a
+              href="https://blog.csdn.net/qq_41901534?type=blog/"
+              target="“_blank”"
+              >&ensp;&ensp;https://blog.csdn.net/qq_41901534?type=blog/</a
             >
           </div>
           <div class="logo-p">
-            <span style="color:'Dodgerblue'"><i class="fab fa-qq"></i></span>&ensp;&ensp;1601514271
+            <span style="color:'Dodgerblue'"
+              ><i class="fab fa-github fa-fw"></i
+            ></span>
+            <a href="https://github.com/Lindom96/" target="“_blank”"
+              >&ensp;&ensp;https://github.com/Lindom96/</a
+            >
           </div>
           <div class="logo-p">
-            <img src="../../assets/img/bg0503.jpg" alt="" />
+            <span style="color:'Dodgerblue'"
+              ><i class="fab fa-qq fa-fw"></i></span
+            >&ensp;&ensp;1601514271
+          </div>
+          <div class="logo-p">
+            <span style="color:'Dodgerblue'"
+              ><i class="fa fa-envelope fa-fw"></i
+            ></span>
             &ensp;&ensp;1601514271@qq.com
           </div>
         </div>
@@ -62,6 +87,11 @@
 <script>
 import { Button } from "view-design";
 import ArticCard from "./components/ArticCard";
+import Article from "@/store/Modules/article";
+import Tag from "@/store/Modules/tag";
+import Category from "@/store/Modules/category";
+import Utils from "@/utils/util";
+import CsdnLogo from "../../assets/img/csdn_logo.png";
 export default {
   name: "home",
   components: {
@@ -71,19 +101,13 @@ export default {
   data() {
     return {
       search: "",
-      Labellist: [
-        { id: 1, labelname: "PHP" },
-        { id: 2, labelname: "Ajax" },
-        { id: 3, labelname: "mysql" },
-        { id: 4, labelname: "JavaScript" },
-      ],
-      serieslist: [
-        { id: 1, name: "PHP日志" },
-        { id: 2, name: "技术" },
-        { id: 3, name: "感想" },
-      ],
+      csdnLogo: CsdnLogo,
+      tagList: [{ id: 0, name: "全部" }],
+      catList: [{ id: 0, name: "全部" }],
+      selecCatId: 0,
+      selecTagId: 0,
       timelist: ["2020-07", "2020-08", "2020-09"],
-      templates: [],
+      articleLst: [],
       fakeData: [
         {
           id: "1",
@@ -147,44 +171,66 @@ export default {
     };
   },
   methods: {
-    //获取标签的方法
-    getlabel() {
-      this.$axios({
-        method: "get",
-        url: "/json/label",
-        params: {},
-      }).then(
-        (res) => {
-          this.Labellist = res.data.data;
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    // 刷新/获取标签
+    async getTags() {
+      try {
+        let tags = await Tag.getTags();
+        let { tagList } = this;
+        this.$set(this, "tagList", [...tagList, ...tags]);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+      }
     },
-    //获取专栏的方法
-    getcolumn() {
-      this.$axios({
-        method: "get",
-        url: "/json/column",
-        params: {},
-      }).then(
-        (res) => {
-          this.serieslist = res.data.data;
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    // 刷新/获取分类
+    async getCategories() {
+      try {
+        let cats = await Category.getCategories();
+        let { catList } = this;
+        this.$set(this, "catList", [...catList, ...cats]);
+      } catch (e) {}
     },
     /**
-     * 获取文章列表
+     * 取得文章列表
      */
-    getArticleList() {
-      let _this = this;
-      setTimeout(() => {
-        _this.$set(_this, "templates", _this.fakeData);
-      }, 500);
+    async getArticles() {
+      let { search, selecCatId, selecTagId } = this;
+      try {
+        let params = {
+          categoryId: selecCatId || 0,
+          authorId: 0,
+          tagId: selecTagId || 0,
+          publicId: 0,
+          statusId: 0,
+          starId: 0,
+          page: 0,
+        };
+        if (search) {
+          params = { search, ...params };
+        }
+
+        let articles = await Article.getArticles(params);
+        articles.forEach((v) => {
+          v.created_date = Utils.timestampToTime(v.created_date);
+        });
+        this.$set(this, "articleLst", articles);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(e);
+      }
+    },
+    /**
+     * 点击标签/分类
+     */
+    selectTagOrCat(type, id) {
+      switch (type) {
+        case "selecTagId":
+          this.selecTagId = id;
+          break;
+        case "selecCatId":
+          this.selecCatId = id;
+          break;
+      }
+      this.getArticles();
     },
     //获取时间的方法
     gettime() {
@@ -201,11 +247,11 @@ export default {
         }
       );
     },
-    seek() {
-      if (this.search) {
-        this.$router.push({ path: "/list", query: { search: this.search } });
-        this.search = "";
-      }
+    /**
+     * 查询框查询
+     */
+    query() {
+      this.getArticles();
     },
     onSubmit() {
       return false;
@@ -217,31 +263,44 @@ export default {
     },
   },
   mounted() {
-    // this.getlabel()
-    // this.getcolumn()
+    this.getArticles();
+    this.getTags();
+    this.getCategories();
     //  this.gettime()
-    this.getArticleList();
   },
 };
 </script>
 <style lang="scss" scoped>
-#tou {
+#top-main {
   position: sticky;
   z-index: 100;
   top: 0;
   background-color: white;
   padding-top: 25px;
-  padding-right: 100px;
+  padding-right: 40px;
   padding-left: 30px;
   padding-bottom: 30px;
   height: 80px;
+  // background-image: url('../../assets/img/science-blue-header.png');
+  background: url("../../assets/img/science-blue-header.jpg") no-repeat center
+    center;
+  background-size: cover;
   display: flex;
-  a {
+  .top-left {
     flex: 1;
-    color: #000;
+    height: 25px;
+    .slogan {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #f9f9f5;
+      font-family: fangsong;
+    }
   }
   .search-ipt {
     width: 20%;
+  }
+  .login-div{
+    margin-left: 24px;
   }
 }
 /* 设置滚动条的样式 */
@@ -301,9 +360,11 @@ export default {
         text-align: center;
       }
     }
-    .tags {
+    .tags,
+    .cats {
       height: 155px;
       & > div {
+        cursor: pointer;
         margin-top: 20px;
         display: flex;
         flex-wrap: wrap;
@@ -312,16 +373,21 @@ export default {
         }
       }
     }
-    .cats {
-      height: 200px;
-    }
     .personal {
       height: 200px;
+      padding: 10px;
+      .logo-p {
+        margin: 10px;
+        & > img {
+          height: 20px;
+          width: 37px;
+          vertical-align: middle;
+        }
+        & > span i {
+          width: 37px;
+        }
+      }
     }
   }
-}
-.logo-p img {
-  height: 20px;
-  vertical-align: middle;
 }
 </style>
