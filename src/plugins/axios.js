@@ -9,8 +9,8 @@ import {
 import store from '@/store'
 import author from '../store/Modules/author'
 const config = {
-    baseURL: Config.baseUrl,
-    timeout: 5 * 1000,
+    baseURL: Config.baseUrl+'/api/',
+    timeout: 60 * 1000,
     crossDomain: true,
     validateStatus(status) {
         return status >= 200 && status < 500
@@ -24,7 +24,6 @@ _axios.interceptors.request.use(originConfig => {
     const reqConfig = {
         ...originConfig
     }
-
     // step1: 容错处理
     if (!reqConfig.url) {
         throw new Error({

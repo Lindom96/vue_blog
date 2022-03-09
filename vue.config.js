@@ -2,8 +2,8 @@ const path = require('path')
 
 module.exports = {  
   // 部署应用包时的基本 URL,用法和 webpack 本身的 output.publicPath 一致
-  publicPath: './',  
-  assetsPublicPath:'/blog/',
+  publicPath: process.env.NODE_ENV === 'production'?"/":"/",  
+//   baseUrl:'/blog/',
   // 输出文件目录
   outputDir: 'dist',  
   // eslint-loader 是否在保存的时候检查
@@ -53,13 +53,13 @@ module.exports = {
     hotOnly: false,   
     // http 代理配置
     proxy: {      
-    //   '/api': {
-    //     target: 'http://127.0.0.1:3000/api',
-    //     changeOrigin: true,
-    //     pathRewrite: {          
-    //         '^/api': ''
-    //     }
-    //   }
+      '/api': {
+        target: 'http://120.76.72.225:8090/laravel_blog/public/',
+        changeOrigin: true,
+        pathRewrite: {          
+            '^/api': ''
+        }
+      }
     },
     before: (app) => {}
   }, 
