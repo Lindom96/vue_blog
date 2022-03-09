@@ -125,7 +125,6 @@ export default {
       } catch (e) {
         this.loading = false;
         // eslint-disable-next-line no-console
-        console.log(e);
       }
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <pre class="content">
-      人间失格
+      忠于自己，热爱生活
     </pre>
   </div>
 </template>
@@ -15,6 +15,7 @@ export default {
 .container {
   box-sizing: border-box;
   font-family: KaiTi;
+  font-size: 2rem;
   padding: 30px;
   .content {
     line-height: 1.5em;

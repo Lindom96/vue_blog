@@ -115,7 +115,7 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click.stop="submitForm('form')">保 存</el-button>
-              <el-button type="primary" @click="preview">预 览</el-button>
+              <el-button type="primary" v-if="false" @click="preview">预 览</el-button>
             </el-form-item>
           </el-form>
         </el-col>
