@@ -190,12 +190,12 @@ export default {
         id: data.id,
         title: data.title,
         description: data.description,
-        authors: data.authors.map((v) => v.id),
+        authors: data.authors[0].id,//目前只能存一个
         createdDate: data.created_date,
         cover: data.cover,
         content: "",
         categoryId: data.category.c_id,
-        tags: data.tags.map((v) => v.id),
+        tags: data.tags[0].id,//目前只能存一个
         public: data.public,
         status: data.status,
         star: data.star,

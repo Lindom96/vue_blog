@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="view-title">
-      {{infoType === 'add' ? '添加文章' : '编辑文章'}}
+      {{ infoType === "add" ? "添加文章" : "编辑文章" }}
       <span
         v-if="infoType === 'edit'"
         class="back"
@@ -24,10 +24,18 @@
             :rules="rules"
           >
             <el-form-item label="标题" prop="title">
-              <el-input v-model="form.title" size="medium" placeholder="请输入标题"></el-input>
+              <el-input
+                v-model="form.title"
+                size="medium"
+                placeholder="请输入标题"
+              ></el-input>
             </el-form-item>
             <el-form-item label="封面" prop="cover">
-              <el-input v-model="form.cover" size="medium" placeholder="请输入封面地址"></el-input>
+              <el-input
+                v-model="form.cover"
+                size="medium"
+                placeholder="请输入封面地址"
+              ></el-input>
             </el-form-item>
             <el-form-item label="描述" prop="description">
               <el-input
@@ -43,8 +51,6 @@
               <el-select
                 v-model="form.authors"
                 filterable
-                multiple
-                allow-create
                 size="medium"
                 placeholder="请选择作者"
               >
@@ -57,7 +63,12 @@
               </el-select>
             </el-form-item>
             <el-form-item label="分类" prop="categoryId">
-              <el-select v-model="form.categoryId" filterable size="medium" placeholder="请选择分类">
+              <el-select
+                v-model="form.categoryId"
+                filterable
+                size="medium"
+                placeholder="请选择分类"
+              >
                 <el-option
                   v-for="category in categories"
                   :key="category.id"
@@ -69,13 +80,16 @@
             <el-form-item label="标签" prop="tags">
               <el-select
                 v-model="form.tags"
-                multiple
                 filterable
-                allow-create
                 size="medium"
                 placeholder="请选择标签"
               >
-                <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id"></el-option>
+                <el-option
+                  v-for="tag in tags"
+                  :key="tag.id"
+                  :label="tag.name"
+                  :value="tag.id"
+                ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="时间" prop="createdDate">
@@ -106,16 +120,27 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="内容" prop="content">
-              <el-input
+              <!-- <el-input
                 type="textarea"
                 v-model="form.content"
                 :autosize="{ minRows: 10, maxRows: 14 }"
                 placeholder="请输入文章内容"
-              ></el-input>
+              ></el-input> -->
+              <mavonEditor
+                :subfield="false"
+                :autofocus="false"
+                v-model="form.content"
+                ref="md"
+                style="width: 99%;"
+              />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click.stop="submitForm('form')">保 存</el-button>
-              <el-button type="primary" v-if="false" @click="preview">预 览</el-button>
+              <el-button type="primary" @click.stop="submitForm('form')"
+                >保 存</el-button
+              >
+              <el-button type="primary" v-if="false" @click="preview"
+                >预 览</el-button
+              >
             </el-form-item>
           </el-form>
         </el-col>
@@ -129,7 +154,12 @@ import category from "@/store/Modules/category";
 import tag from "@/store/Modules/tag";
 import author from "@/store/Modules/author";
 import article from "@/store/Modules/article";
+import { mavonEditor } from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
 export default {
+  components: {
+    mavonEditor,
+  },
   props: {
     infoType: {
       type: String,
@@ -157,13 +187,13 @@ export default {
       loading: false,
       form: {
         title: "",
-        authors: [],
+        authors: "",
         description: "",
         createdDate: "",
         cover: "",
         content: "",
         categoryId: "",
-        tags: [],
+        tags: "",
         public: 1,
         status: 1,
         star: 1,
@@ -189,7 +219,7 @@ export default {
         categoryId: [
           { trigger: "change", message: "请选择分类", required: true },
         ],
-        tags: [{ type: "array", message: "请选择标签", required: true }],
+        tags: [{ trigger: "change", message: "请选择标签", required: true }],
         public: [
           { type: "number", message: "请选择公开或私密", required: true },
         ],
@@ -204,10 +234,13 @@ export default {
     async submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          let { authors, tags } = this.form;
           if (this.infoType === "add") {
             // 新增文章
             try {
               this.loadingn = true;
+              this.form.authors = [authors];
+              this.form.tags = [tags];
               const res = await article.createArticle(this.form);
               if (res.success) {
                 this.loading = false;
@@ -229,6 +262,8 @@ export default {
               return;
             }
             try {
+              this.form.authors = [authors];
+              this.form.tags = [tags];
               // eslint-disable-next-line no-console
               const res = await article.updateArticle(this.form);
               if (res.success) {
@@ -267,7 +302,11 @@ export default {
     preview() {},
     async getCategories() {
       try {
-        this.categories = await category.getCategories();
+        let categories = await category.getCategories();
+        categories.map((item) => {
+          item.id += "";
+        });
+        this.categories = categories;
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e);
@@ -275,7 +314,11 @@ export default {
     },
     async getTags() {
       try {
-        this.tags = await tag.getTags();
+        let tags = await tag.getTags();
+        tags.map((item) => {
+          item.id += "";
+        });
+        this.tags = tags;
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e);
@@ -283,7 +326,11 @@ export default {
     },
     async getAuthors() {
       try {
-        this.authors = await author.getAuthors();
+        let authors = await author.getAuthors();
+        authors.map((item) => {
+          item.id += "";
+        });
+        this.authors = authors;
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e);
@@ -293,6 +340,9 @@ export default {
     fitlerAll(arr) {
       let result = [].concat(arr);
       result.shift();
+      result.map((item) => {
+        item.id += "";
+      });
       return result;
     },
   },
