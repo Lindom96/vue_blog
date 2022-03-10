@@ -13,7 +13,7 @@
         placeholder="Enter something..."
       />
       <div class="login-div">
-      <el-button type="primary" circle style="padding:9px;" @click="btnLoginClick" ><Icon type="md-log-in" /></el-button>
+      <el-button type="primary" circle style="padding:9px;" @click="btnToPage" ><Icon type="md-log-in" /></el-button>
       </div>
     </div>
     <div class="main-container">
@@ -256,7 +256,10 @@ export default {
     onSubmit() {
       return false;
     },
-    btnLoginClick() {
+    /**
+     * 点击跳转login页面
+     */
+    btnToPage() {
       this.$router.push("/login").catch((err) => {
         $router.push("/home");
       });
@@ -281,9 +284,9 @@ export default {
   padding-left: 30px;
   padding-bottom: 30px;
   height: 80px;
+  min-width: 1421px;
   // background-image: url('../../assets/img/science-blue-header.png');
-  background: url("../../assets/img/science-blue-header.jpg") no-repeat center
-    center;
+  background: url("../../assets/img/helian.jpg") no-repeat;
   background-size: cover;
   display: flex;
   .top-left {
@@ -326,6 +329,7 @@ export default {
 .main-container {
   top: 50px;
   height: 100%;
+  min-width: 1400px;
   display: flex;
   flex-direction: row;
   /* align-items: flex-end; */

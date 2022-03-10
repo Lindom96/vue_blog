@@ -17,6 +17,11 @@ class Article {
         const res = await get('articles', params)
         return res
     }
+    // 根据ID获取文章
+    async getArticle(params) {
+        const res = await get('article', params)
+        return res
+    }
 
     // 删除某篇文章
     async deleteArticle(id) {
