@@ -1,13 +1,23 @@
 <template>
   <div>
-    <transition-group tag="div" name="el-fade-in-linear"  class="template-main">
+    <transition-group tag="div" name="el-fade-in-linear" class="template-main">
       <div v-for="item in articleLst" :key="item.id">
-        <div class="template-item">
-          <img
-            style="width: 100%; height: 138px"
-            :src="item &&item.cover ? item.cover : picDef"
-            alt=""
-          />
+        <div class="template-item" @click="clickCrad(item.id)">
+          <div
+            class="card-cover"
+            :style="{
+              background: `url(${
+                item && item.cover ? item.cover : picDef
+              }) no-repeat`,
+              backgroundSize: 'cover',
+            }"
+          >
+            <!-- <img
+              style="width: 100%; height: 138px"
+              :src="item && item.cover ? item.cover : picDef"
+              alt=""
+            /> -->
+          </div>
           <div class="template-item-title">{{ item.title }}</div>
           <div class="template-item-content">{{ item.description }}</div>
         </div>
@@ -33,7 +43,7 @@
 </template>
 
 <script>
-import PicDef from "../../../assets/img/bg0503.jpg";
+import PicDef from "../../../assets/img/nasa_the_blue_marble.jpg";
 import PicText from "../../../assets/img/bg0503.jpg";
 export default {
   components: {},
@@ -49,11 +59,10 @@ export default {
     },
   },
   methods: {
-    useTemp(id) {
-      console.log("use", id);
+    clickCrad(id) {
       this.$router.push({
-        path: "/artic",
-        query: { id: 10046, isLibrary: true },
+        path: "/home/article",
+        query: { id },
       });
       // let p = window.location.href.split("#")[0];
       // window.open(p + "#/five/template/update?id=" +10046 /**id*/);
@@ -67,7 +76,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .template-main {
   margin: 10px 5px 0 5px;
   max-width: 1421px;
@@ -83,6 +92,14 @@ export default {
   margin: 3px;
   border-radius: 10px;
   border: 1px solid #f0f0f0;
+  .card-cover {
+    width: 100%;
+    height: 138px;
+  }
+}
+.template-item:hover {
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  cursor: pointer;
 }
 /* .template-item:hover + .template-item-hover,
 .template-item-hover:hover {

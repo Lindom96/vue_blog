@@ -38,10 +38,9 @@ const router = new Router({
   linkActiveClass: "active",
 });
 router.beforeEach((to, from, next) => {
-  console.log(to, from);
 
   if (isLoginRequired(to.name) && !store.state.login) {
-    console.log(to.name);
+    console.log('route:',to.name);
     next({
       path: "login",
     });
